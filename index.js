@@ -7,7 +7,7 @@ const app = express();
 app.use(bodyParser.json());
 app.set('port', 8080);
 
-app.use('/api/', UserRoute)
+app.use('/users/', UserRoute)
 app.use('/task/', TaskRoute)
 
 app.listen(app.get('port'), () => {
