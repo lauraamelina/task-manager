@@ -1,4 +1,5 @@
 import * as userService from './../services/user.api.service.js';
+import jwt from 'jsonwebtoken'
 
 const getAllUsers = async (req, res) => {
     try {
@@ -54,10 +55,26 @@ const update = async (req, res) => {
     }
 }
 
+const login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const user = await userService.login(email, password);
+        if (!user) {
+            return res.status(401).json({ status: false, message: 'Credenciales inválidas' });
+        }
+        const token = jwt.sign({ userId: user.id }, 'secreto_del_token', { expiresIn: '1h' });
+        res.status(200).json({ status: true, token });
+    } catch (error) {
+        console.error('Error en el login: ', error);
+        res.status(500).json({ status: false, error: error.message });
+    }
+};
+
 export {
     getAllUsers,
     create,
     findUserByEmail,
     findUserById,
-    update
+    update,
+    login
 };

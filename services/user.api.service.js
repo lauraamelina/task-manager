@@ -78,11 +78,36 @@ const update = async (id, user) => {
     }
 }
 
+const login = async (email, password) => {
+    try {
+        const connection = await connectToDatabase();
+        const [users] = await connection.execute('SELECT * FROM users WHERE email = ?', [email]);
+        await connection.end();
+
+        if (!users.length) {
+            return null;
+        }
+
+        const user = users[0];
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) {
+            return null;
+        }
+
+        return { id: user.user_id, email: user.email };
+    } catch (error) {
+        console.error('Error al autenticar usuario: ', error);
+        throw error;
+    }
+};
+
+
 
 export {
     getAllUsers,
     create,
     findUserByEmail,
     findUserById,
-    update
+    update,
+    login
 };
