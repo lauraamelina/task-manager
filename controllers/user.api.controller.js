@@ -21,7 +21,20 @@ const create = async (req, res) => {
     }
 };
 
+const findUserByEmail = async (req, res) => {
+    try {
+        const user = await userService.findUserByEmail(req.body.email)
+        return res.status(200).json({
+            status: true,
+            data: user
+        });
+    } catch (err) {
+        return res.status(500).json({ status: false, error: err.message })
+    }
+}
+
 export {
     getAllUsers,
-    create
+    create,
+    findUserByEmail
 };

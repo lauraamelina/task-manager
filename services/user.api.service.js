@@ -31,7 +31,19 @@ const create = async (newUser) => {
     }
 };
 
+const findUserByEmail = async (email) => {
+    try {
+        const connection = await connectToDatabase();
+        const user = await connection.execute("SELECT * FROM users WHERE email = ?", [email])
+        return user
+    } catch (err) {
+        console.error("Error al encontrar el usuario: ", err)
+        throw err;
+    }
+}
+
 export {
     getAllUsers,
-    create
+    create,
+    findUserByEmail
 };
