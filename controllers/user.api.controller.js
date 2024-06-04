@@ -45,9 +45,19 @@ const findUserById = async (req, res) => {
     }
 }
 
+const update = async (req, res) => {
+    try {
+        const user = await userService.update(req.params.id, req.body)
+        return res.status(200).json({ status: true, message: "Usuario actualizado" })
+    } catch (err) {
+        return res.status(500).json({ status: false, error: err.message })
+    }
+}
+
 export {
     getAllUsers,
     create,
     findUserByEmail,
-    findUserById
+    findUserById,
+    update
 };

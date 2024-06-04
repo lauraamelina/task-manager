@@ -35,9 +35,10 @@ const findUserByEmail = async (email) => {
     try {
         const connection = await connectToDatabase();
         const [user] = await connection.execute("SELECT * FROM users WHERE email = ?", [email])
-        if (user.length === 0) {
+        if (!user.length) {
             throw new Error('No se encontró el usuario');
         }
+        await connection.end();
         return user
     } catch (err) {
         console.error("Error al encontrar el usuario: ", err)
@@ -52,9 +53,27 @@ const findUserById = async (id) => {
         if (!user.length) {
             throw new Error('No se encontró el usuario');
         }
+        await connection.end();
         return user
     } catch (err) {
         console.error("Error al encontrar el usuario: ", err)
+        throw err;
+    }
+}
+
+const update = async (id, user) => {
+    try {
+        const connection = await connectToDatabase();
+        const [userOld] = await connection.execute("SELECT * FROM users WHERE user_id = ? ", [id])
+        if (!userOld.length) {
+            throw new Error('No se encontró el usuario');
+        } else {
+            await connection.execute('UPDATE users SET email = ?, name = ? WHERE user_id = ?', [user.email, user.name, id]);
+        }
+        await connection.end();
+        console.log("Usuario actualizado exitosamente")
+    } catch (err) {
+        console.error("Error al actualizar el usuario: ", err)
         throw err;
     }
 }
@@ -64,5 +83,6 @@ export {
     getAllUsers,
     create,
     findUserByEmail,
-    findUserById
+    findUserById,
+    update
 };
