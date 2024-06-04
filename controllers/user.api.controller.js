@@ -33,8 +33,21 @@ const findUserByEmail = async (req, res) => {
     }
 }
 
+const findUserById = async (req, res) => {
+    try {
+        const user = await userService.findUserById(req.params.id)
+        return res.status(200).json({
+            status: true,
+            data: user
+        });
+    } catch (err) {
+        return res.status(500).json({ status: false, error: err.message })
+    }
+}
+
 export {
     getAllUsers,
     create,
-    findUserByEmail
+    findUserByEmail,
+    findUserById
 };

@@ -6,6 +6,7 @@ const route = express.Router()
 route.get('/users', userController.getAllUsers)
 route.post('/users', userController.create)
 route.post('/users/email', userController.findUserByEmail)
+route.get('/users/:id', userController.findUserById)
 
 
 export default route

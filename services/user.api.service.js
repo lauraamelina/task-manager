@@ -34,7 +34,10 @@ const create = async (newUser) => {
 const findUserByEmail = async (email) => {
     try {
         const connection = await connectToDatabase();
-        const user = await connection.execute("SELECT * FROM users WHERE email = ?", [email])
+        const [user] = await connection.execute("SELECT * FROM users WHERE email = ?", [email])
+        if (user.length === 0) {
+            throw new Error('No se encontró el usuario');
+        }
         return user
     } catch (err) {
         console.error("Error al encontrar el usuario: ", err)
@@ -42,8 +45,24 @@ const findUserByEmail = async (email) => {
     }
 }
 
+const findUserById = async (id) => {
+    try {
+        const connection = await connectToDatabase();
+        const [user] = await connection.execute("SELECT * FROM users WHERE user_id = ?", [id])
+        if (!user.length) {
+            throw new Error('No se encontró el usuario');
+        }
+        return user
+    } catch (err) {
+        console.error("Error al encontrar el usuario: ", err)
+        throw err;
+    }
+}
+
+
 export {
     getAllUsers,
     create,
-    findUserByEmail
+    findUserByEmail,
+    findUserById
 };
