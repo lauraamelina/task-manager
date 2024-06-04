@@ -80,3 +80,15 @@ http://localhost:8080
 
 - Descripción: Cambia el estado de la tarea.
 - Autenticación: Requerida
+
+### Estados
+
+#### GET /status/
+
+- Descripción: Recupera todos los estados de una tarea.
+- Autenticación: Requerida
+
+#### GET /status/:id
+
+- Descripción: Encuentra un estado por ID.
+- Autenticación: Requerida
