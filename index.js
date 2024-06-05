@@ -12,6 +12,10 @@ app.use('/users/', UserRoute)
 app.use('/task/', TaskRoute)
 app.use('/status/', StatusRoute)
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 app.listen(app.get('port'), () => {
     console.log('Servidor corriendo en el puerto', app.get('port'));
 });
