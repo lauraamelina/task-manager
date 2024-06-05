@@ -15,6 +15,12 @@ app.use('/users/', UserRoute)
 app.use('/task/', TaskRoute)
 app.use('/status/', StatusRoute)
 
+app.get('/', (req, res) => {
+    res.send({
+        message: "Hola"
+    })
+})
+
 const server = createServer(app)
 
 
