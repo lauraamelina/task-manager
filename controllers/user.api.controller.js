@@ -13,7 +13,7 @@ const getAllUsers = async (req, res) => {
 const create = async (req, res) => {
     try {
         const user = await userService.create(req.body);
-        return res.status(200).json({
+        return res.status(201).json({
             status: true,
             message: "Usuario creado"
         });
@@ -63,7 +63,7 @@ const login = async (req, res) => {
             return res.status(401).json({ status: false, message: 'Credenciales inválidas' });
         }
         const token = jwt.sign({ userId: user.id }, 'secreto_del_token', { expiresIn: '1h' });
-        res.status(200).json({ status: true, token });
+        res.status(200).json({ status: true, token, user });
     } catch (error) {
         console.error('Error en el login: ', error);
         res.status(500).json({ status: false, error: error.message });
