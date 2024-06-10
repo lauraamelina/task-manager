@@ -94,7 +94,7 @@ const login = async (email, password) => {
             return null;
         }
 
-        return user;
+        return { id: user.user_id, email: user.email, name: user.name };
     } catch (error) {
         console.error('Error al autenticar usuario: ', error);
         throw error;
