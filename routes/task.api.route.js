@@ -5,6 +5,7 @@ import { authorization } from '../middlewares/auth.middleware.js'
 const route = express.Router()
 
 route.get('/', authorization, taskController.getAllTasks)
+route.get('/user/:id', authorization, taskController.getAllTasksByUser)
 route.post('/', authorization, taskController.create)
 route.get('/:id', authorization, taskController.findTaskById)
 route.put('/:id', authorization, taskController.update)

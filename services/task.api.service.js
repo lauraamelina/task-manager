@@ -12,6 +12,20 @@ const getAllTasks = async () => {
     }
 };
 
+const getAllTasksByUser = async (id) => {
+    try {
+        const connection = await connectToDatabase();
+        const [rows] = await connection.execute('SELECT * FROM tasks WHERE user_id = ?', [id])
+        await connection.end();
+        return rows;
+    } catch (error) {
+        console.error('Error al obtener todas las tareas: ', error);
+        throw error;
+    }
+};
+
+
+
 const create = async (newTask) => {
     try {
         const connection = await connectToDatabase();
@@ -98,6 +112,7 @@ const changeTaskStatus = async (taskId, newStatusId) => {
 
 export {
     getAllTasks,
+    getAllTasksByUser,
     create,
     findTaskById,
     update,

@@ -9,6 +9,16 @@ const getAllTasks = async (req, res) => {
     }
 };
 
+const getAllTasksByUser = async (req, res) => {
+    try {
+        const userId = req.params.id
+        const tasks = await taskService.getAllTasksByUser(id);
+        return res.status(200).json({ status: true, data: tasks });
+    } catch (err) {
+        return res.status(500).json({ status: false, error: err.message });
+    }
+};
+
 const create = async (req, res) => {
     try {
         const task = await taskService.create(req.body);
@@ -62,6 +72,7 @@ const changeTaskStatus = async (req, res) => {
 
 export {
     getAllTasks,
+    getAllTasksByUser,
     create,
     findTaskById,
     update,
