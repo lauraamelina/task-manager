@@ -12,7 +12,7 @@ const getAllTasks = async (req, res) => {
 const getAllTasksByUser = async (req, res) => {
     try {
         const userId = req.params.id
-        const tasks = await taskService.getAllTasksByUser(id);
+        const tasks = await taskService.getAllTasksByUser(userId);
         return res.status(200).json({ status: true, data: tasks });
     } catch (err) {
         return res.status(500).json({ status: false, error: err.message });
